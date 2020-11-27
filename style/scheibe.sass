@@ -1,0 +1,28 @@
+hanoi-scheibe
+	display: flex
+	height: 2em
+	border-radius: .75em
+	//cursor: move
+	position: relative
+	z-index: 2
+
+	&[data-size="1"]
+		background-color: darkred
+
+	&[data-size="2"]
+		background-color: darkblue
+
+	&[data-size="3"]
+		background-color: gold
+
+	&[data-size="4"]
+		background-color: darkgreen
+
+	&[data-size="5"]
+		background-color: lightblue
+
+	&[data-size="6"]
+		background-color: violet
+
+	&[data-size="7"]
+		background-color: darkviolet
