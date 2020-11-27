@@ -9,7 +9,7 @@ class Kontrolle extends HTMLElement {
 			const button = document.createElement("button")
 			button.dataset.anzahlScheiben = String(i);
 			button.textContent = i + " Scheiben"
-			button.addEventListener("click", e => {
+			button.addEventListener("click", () => {
 				Array.from(document.body.children).filter(child => child instanceof Spiel).forEach(spiel => spiel.remove())
 				document.body.appendChild(new Spiel(i))
 			})
@@ -66,7 +66,7 @@ class Turm extends HTMLElement {
 				scheibe = document.getElementById(data) as Scheibe,
 				turm = event.target as Turm
 
-			// if (turm.firstChild === this.firstChild) return
+			if (scheibe === this.firstChild) return
 
 			if (turm.firstChild && (turm.firstChild as Scheibe).size <= scheibe.size) return alert("Du kannst nur kleinere Scheiben auf diese Scheibe legen.")
 
