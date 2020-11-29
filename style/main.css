@@ -1,7 +1,20 @@
 :root {
+  --color-hell: #eee;
+  --color-dunkel: #222;
   --turm-breite: 2em;
-  --turm-farbe: sandybrown;
-  --turm-border-radius: calc(var(--turm-breite) / 2); }
+  --brett-hoehe: 2em;
+  --holz-farbe: radial-gradient(sandybrown, peru);
+  --turm-border-radius: calc(var(--turm-breite) / 2);
+  --color-primary-hell: linen;
+  --color-secondary-hell: darkgoldenrod;
+  --color-primary-dunkel: rgb(40, 30, 20);
+  --color-secondary-dunkel: rgb(244, 194, 71);
+  --color-focus: #805d07;
+  --box-shadow-elements: 0 0 52px 4px #111;
+  --kontrole-min-hoehe: 48px;
+  --background-hell: linear-gradient(0, rgb(85, 75, 65), rgb(105, 95, 85));
+  --background-dunkel: linear-gradient(0, rgb(25, 15, 05), rgb(45, 35, 25));
+}
 
 body, html {
   margin: 0;
@@ -9,73 +22,441 @@ body, html {
   height: 100%; }
 
 body {
-  background-image: linear-gradient(0, linen, white);
+  --color-background: var(--color-hell);
+  --color-foreground: var(--color-dunkel);
+  --color-primary: var(--color-primary-hell);
+  --color-secondary: var(--color-secondary-hell);
+  background: var(--background-hell);
+  color: var(--color-foreground);
+  font-family: system-ui, sans-serif;
   display: flex;
-  flex-direction: column; }
+  justify-content: center;
+  overflow: hidden;
+}
+
+body.dunkel {
+  --color-primary: var(--color-primary-dunkel);
+  --color-secondary: var(--color-secondary-dunkel);
+  --color-background: var(--color-dunkel);
+  --color-foreground: var(--color-hell);
+  background: var(--background-dunkel);
+}
+
+body:before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 105%;
+  background-image: url(https://www.geihinkan.go.jp/wp-content/themes/geihinkan/assets/img/akasaka/kacho/kacho_main.jpg);
+  background-position: center;
+  background-size: cover;
+  filter: blur(8px) sepia(0.7) grayscale(0.1);
+  opacity: 0.6;
+}
 
 * {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
 
-hanoi-kontrolle {
-  padding: 1em; }
-  hanoi-kontrolle button:not(:first-child) {
-    margin-left: 1em; }
+hanoi-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-hanoi-spiel {
+hanoi-container hanoi-kontrolle {
+  display: flex;
+  border-bottom: 2px solid var(--color-secondary);
+  box-shadow: var(--box-shadow-elements);
+  z-index: 1;
+  width: 100%;
+  min-height: var(--kontrole-min-hoehe);
+}
+
+hanoi-container hanoi-kontrolle button {
+  color: var(--color-foreground);
+  padding: 0.6em;
+  border: none;
+  outline: none;
+  border-radius: 0;
+  font-family: system-ui, sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  text-transform: uppercase;
+  flex-basis: 0;
+  flex-grow: 1;
+  background-color: var(--color-primary);
+  cursor: pointer;
+  min-width: var(--kontrole-min-hoehe);
+}
+
+hanoi-container hanoi-kontrolle button:not(:first-child) {
+  border-left: 2px solid var(--color-secondary);
+}
+
+hanoi-container hanoi-kontrolle button.shrink {
+  flex-grow: 0;
+}
+
+hanoi-container hanoi-kontrolle button.active, hanoi-container hanoi-kontrolle button:focus, hanoi-container hanoi-kontrolle button:hover {
+  color: var(--color-secondary);
+}
+
+hanoi-container hanoi-kontrolle button:active {
+  color: var(--color-focus);
+}
+
+hanoi-container hanoi-kontrolle button.anleitung {
+  color: transparent;
+  text-shadow: 0 0 0 var(--color-foreground);
+}
+
+hanoi-container hanoi-spiel {
   width: 100%;
   flex-grow: 1;
   display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+hanoi-container hanoi-spiel:after {
+  content: "";
+  height: 2em;
+  bottom: 0;
+  width: 100%;
+  background-image: var(--holz-farbe);
+  box-shadow: 0 0 4px 0 #333 inset, var(--box-shadow-elements);
+  z-index: 1;
+  transition: all 2s ease-out;
+  transition-delay: 1.2s;
+}
+
+hanoi-container hanoi-spiel.disabled {
+  pointer-events: none;
+}
+
+hanoi-container hanoi-spiel.beendet:after {
+  margin-bottom: calc(-1 * var(--brett-hoehe));
+  box-shadow: none;
+}
+
+hanoi-container hanoi-spiel.beendet hanoi-status {
+  transition: color 4s linear;
+  transition-delay: 2s;
+  color: var(--color-hell);
+}
+
+hanoi-container hanoi-spiel.beendet hanoi-status div:after {
+  opacity: 1;
+  display: initial;
+}
+
+hanoi-container hanoi-spiel.beendet hanoi-turm:before {
+  transform: translateY(100%);
+  box-shadow: none;
+}
+
+hanoi-container hanoi-spiel.beendet hanoi-scheibe {
+  opacity: 0;
+}
+
+hanoi-container hanoi-spiel.beendet hanoi-sieg {
+  opacity: 1;
+  z-index: 2;
+}
+
+hanoi-container hanoi-spiel.beendet hanoi-sieg h2, hanoi-container hanoi-spiel.beendet hanoi-sieg h1 {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+hanoi-container hanoi-spiel hanoi-status {
+  position: absolute;
+  display: flex;
+  font-weight: bold;
+  font-size: 0.9em;
+  justify-content: space-between;
+  width: 100%;
+  user-select: none;
+  cursor: default;
+  z-index: 3;
+}
+
+hanoi-container hanoi-spiel hanoi-status div {
+  padding: 0.6em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-shadow: 0 0 8px black;
+}
+
+hanoi-container hanoi-spiel hanoi-status div:first-child {
+  align-items: flex-start;
+}
+
+hanoi-container hanoi-spiel hanoi-status div:last-child {
+  align-items: flex-end;
+}
+
+hanoi-container hanoi-spiel hanoi-status div:after {
+  content: "";
+  opacity: 0;
+  display: none;
+}
+
+hanoi-container hanoi-spiel hanoi-status div#zeit {
+  text-transform: initial;
+  cursor: pointer;
+}
+
+hanoi-container hanoi-spiel hanoi-status div[data-state=besser] {
+  color: green;
+}
+
+hanoi-container hanoi-spiel hanoi-status div[data-state=besser]:after {
+  content: "Neuer Highscore!";
+}
+
+hanoi-container hanoi-spiel hanoi-status div[data-state=knapp] {
+  color: yellow;
+}
+
+hanoi-container hanoi-spiel hanoi-status div[data-state=knapp]:after {
+  content: "Gerade noch ein neuer Highscore!";
+}
+
+hanoi-container hanoi-spiel hanoi-status div[data-state=gleich] {
+  color: darkorange;
+}
+
+hanoi-container hanoi-spiel hanoi-status div[data-state=gleich]:after {
+  content: "Gleichauf mit deinem Highscore.";
+}
+
+hanoi-container hanoi-spiel hanoi-status div[data-state=schlechter] {
+  color: red;
+}
+
+hanoi-container hanoi-spiel hanoi-status div[data-state=schlechter]:after {
+  content: "Dein Highscore war " attr(data-highscore) ".";
+}
+
+hanoi-container hanoi-spiel hanoi-feld {
+  display: flex;
   flex-direction: row;
   align-items: flex-end;
-  justify-content: space-around; }
+  justify-content: space-around;
+  flex-grow: 1;
+}
 
-hanoi-turm {
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   flex-basis: 0;
   flex-grow: 1;
-  height: 100%; }
-  hanoi-turm:before {
-    position: absolute;
-    z-index: 1;
-    content: "";
-    width: var(--turm-breite);
-    height: 50%;
-    background-color: var(--turm-farbe);
-    border-radius: var(--turm-border-radius) var(--turm-border-radius) 0 0;
-    cursor: pointer; }
-  hanoi-turm hanoi-scheibe:first-child {
-    cursor: move; }
-    hanoi-turm hanoi-scheibe:first-child:hover:before {
-      pointer-events: none;
-      content: "";
-      height: 100%;
-      width: 100%;
-      background-color: white;
-      opacity: 0.4;
-      border-radius: 0.75em; }
-
-hanoi-scheibe {
-  display: flex;
-  height: 2em;
-  border-radius: 0.75em;
+  height: 100%;
   position: relative;
-  z-index: 2; }
-  hanoi-scheibe[data-size="1"] {
-    background-color: darkred; }
-  hanoi-scheibe[data-size="2"] {
-    background-color: darkblue; }
-  hanoi-scheibe[data-size="3"] {
-    background-color: gold; }
-  hanoi-scheibe[data-size="4"] {
-    background-color: darkgreen; }
-  hanoi-scheibe[data-size="5"] {
-    background-color: lightblue; }
-  hanoi-scheibe[data-size="6"] {
-    background-color: violet; }
-  hanoi-scheibe[data-size="7"] {
-    background-color: darkviolet; }
+  padding: 0 0.5em;
+  overflow: hidden;
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm:after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  background-color: red;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition-duration: 0s;
+  transition-delay: 0s;
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm.disabled:after {
+  opacity: 0.1;
+  z-index: 2;
+  transition: opacity 0s;
+  transition-delay: 0.1s;
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm:before {
+  position: absolute;
+  z-index: 1;
+  content: "";
+  width: var(--turm-breite);
+  min-height: inherit;
+  background-image: var(--holz-farbe);
+  border-radius: var(--turm-border-radius) var(--turm-border-radius) 0 0;
+  transition: all 4s ease-out;
+  transition-delay: 0.8s;
+  box-shadow: 0 0 4px 0 #333 inset, var(--box-shadow-elements);
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe:first-child {
+  cursor: move;
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe:first-child:hover, hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe:first-child:focus {
+  outline: none;
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe:first-child:hover:before, hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe:first-child:focus:before {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe:first-child:first-child:after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  cursor: inherit;
+  height: 800%;
+  width: 800%;
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe {
+  display: flex;
+  border-radius: 12px;
+  position: relative;
+  z-index: 2;
+  transition: opacity 1s ease-in;
+  box-shadow: 0px -2px 6px 0px black inset;
+  justify-content: center;
+  align-items: center;
+  background-color: #333;
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe:before {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  content: "";
+  font-weight: bold;
+  color: var(--color-hell);
+  font-size: 1.5em;
+  text-shadow: 0 2px 2px #333;
+  pointer-events: none;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 12px;
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe[data-breite="1"] {
+  background-color: darkred;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3), darkred, rgba(0, 0, 0, 0.2));
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe[data-breite="2"] {
+  background-color: darkblue;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3), darkblue, rgba(0, 0, 0, 0.2));
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe[data-breite="3"] {
+  background-color: #9b870c;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3), #9b870c, rgba(0, 0, 0, 0.2));
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe[data-breite="4"] {
+  background-color: darkgreen;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3), darkgreen, rgba(0, 0, 0, 0.2));
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe[data-breite="5"] {
+  background-color: lightblue;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3), lightblue, rgba(0, 0, 0, 0.2));
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe[data-breite="6"] {
+  background-color: darkviolet;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3), darkviolet, rgba(0, 0, 0, 0.2));
+}
+
+hanoi-container hanoi-spiel hanoi-feld hanoi-turm hanoi-scheibe[data-breite="7"] {
+  background-color: darkorange;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3), darkorange, rgba(0, 0, 0, 0.2));
+}
+
+hanoi-container hanoi-spiel hanoi-sieg {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-image: radial-gradient(rgba(30, 30, 30, 0.9), black);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: all;
+  color: white;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 4s linear;
+  transition-delay: 2s;
+  user-select: none;
+  text-transform: uppercase;
+}
+
+hanoi-container hanoi-spiel hanoi-sieg h1 {
+  font-size: 8em;
+  font-weight: 900;
+  letter-spacing: 2px;
+  transition: opacity 2s ease-in;
+  transition-delay: 4s;
+  opacity: 0;
+}
+
+hanoi-container hanoi-spiel hanoi-sieg h2 {
+  position: absolute;
+  margin-top: 256px;
+  color: white;
+  font-size: 1.4em;
+  transition: all 2s ease-out;
+  transition-delay: 7s;
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+hanoi-container hanoi-anleitung {
+  display: none;
+  padding: 1em;
+  background-image: radial-gradient(rgba(30, 30, 30, 0.2), rgba(0, 0, 0, 0.9));
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  transform: scale(0.9);
+  transition: transform 0.2s ease;
+  z-index: 100;
+  color: var(--color-hell);
+}
+
+hanoi-container hanoi-anleitung h2 {
+  margin-top: 0;
+  color: var(--color-secondary-hell);
+}
+
+hanoi-container hanoi-anleitung a {
+  color: inherit;
+}
+
+hanoi-container hanoi-anleitung.offen {
+  display: initial;
+  transform: scale(1);
+}
+
+hanoi-container hanoi-anleitung.offen ~ * {
+  filter: blur(2px);
+}
+
+hanoi-container.zahlen-zeigen hanoi-spiel hanoi-turm hanoi-scheibe:before {
+  content: attr(data-breite);
+}
 
 /*# sourceMappingURL=main.css.map */

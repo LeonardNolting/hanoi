@@ -2,13 +2,25 @@
 <html lang="de">
 	<head>
 		<link rel="stylesheet" href="style/main.css">
-<!--		<script src="script/entry.js" type="module"></script>-->
 		<script src="script/entry.js"></script>
 		<title>Türme von Hanoi</title>
 		<meta charset="UTF-8">
 	</head>
 	<body>
-		<hanoi-kontrolle data-scheiben-min="3" data-scheiben-max="7"></hanoi-kontrolle>
-		<hanoi-spiel data-scheiben="5"></hanoi-spiel>
+		<template id="anleitung">
+			<hanoi-anleitung>
+				<h2>Tastenkürzel</h2>
+				<p>Um die oberste Scheibe von Turm 1 zu Turm 2 zu bewegen, drücke erst 1 und dann 2, danach kannst du
+					beide Tasten loslassen.</p>
+				<h2>Bildquellen</h2>
+				<ul>
+					<li>Hintergrundbild:
+						<a href="https://www.geihinkan.go.jp/wp-content/themes/geihinkan/assets/img/akasaka/kacho/kacho_main.jpg">www.geihinkan.go.jp</a>
+					</li>
+				</ul>
+			</hanoi-anleitung>
+		</template>
+
+		<hanoi-container data-scheiben-min="3" data-scheiben-max="7"></hanoi-container>
 	</body>
 </html>

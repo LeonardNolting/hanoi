@@ -1,0 +1,50 @@
+hanoi-spiel
+	width: 100%
+	//height: 100%
+	flex-grow: 1
+	display: flex
+	flex-direction: column
+	position: relative
+	overflow: hidden
+
+	// Brett
+	&:after
+		content: ""
+		height: 2em
+		bottom: 0
+		width: 100%
+		background-image: var(--holz-farbe)
+		box-shadow: 0 0 4px 0 #333 inset, var(--box-shadow-elements)
+		z-index: 1
+		transition: all 2s ease-out
+		transition-delay: 1.2s
+
+	&.disabled
+		pointer-events: none
+
+	&.beendet
+		&:after
+			margin-bottom: calc(-1 * var(--brett-hoehe))
+			box-shadow: none
+		hanoi-status
+			transition: color 4s linear
+			transition-delay: 2s
+			color: var(--color-hell)
+			div:after
+				opacity: 1
+				display: initial
+		hanoi-turm:before
+			transform: translateY(100%)
+			box-shadow: none
+		hanoi-scheibe
+			opacity: 0
+		hanoi-sieg
+			opacity: 1
+			z-index: 2
+			h2, h1
+				transform: translateY(0)
+				opacity: 1
+
+	@import status
+	@import feld
+	@import sieg

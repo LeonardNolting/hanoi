@@ -1,0 +1,14 @@
+hanoi-container
+	height: 100%
+	width: 100%
+	display: flex
+	flex-direction: column
+	align-items: center
+	justify-content: center
+
+	@import kontrolle
+	@import spiel
+	@import anleitung
+
+	&.zahlen-zeigen hanoi-spiel hanoi-turm hanoi-scheibe:before
+		content: attr(data-breite)

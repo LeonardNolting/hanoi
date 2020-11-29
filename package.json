@@ -1,10 +1,10 @@
 {
-  "name": "hanoi",
-  "version": "1.0.0",
-  "main": "index.js",
-  "author": "Leonard Nolting",
-  "license": "MIT",
-  "private": true,
-  "dependencies": {},
-  "type": "module"
+	"name": "hanoi",
+	"version": "1.0.0",
+	"main": "index.js",
+	"author": "Leonard Nolting",
+	"license": "MIT",
+	"private": false,
+	"dependencies": {},
+	"type": "module"
 }

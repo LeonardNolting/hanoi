@@ -1,0 +1,33 @@
+hanoi-kontrolle
+	display: flex
+	border-bottom: 2px solid var(--color-secondary)
+	box-shadow: var(--box-shadow-elements)
+	z-index: 1
+	width: 100%
+	min-height: var(--kontrole-min-hoehe)
+	button
+		color: var(--color-foreground)
+		padding: .6em
+		border: none
+		outline: none
+		border-radius: 0
+		font-family: system-ui, sans-serif
+		font-weight: bold
+		font-size: 1em
+		text-transform: uppercase
+		flex-basis: 0
+		flex-grow: 1
+		background-color: var(--color-primary)
+		cursor: pointer
+		min-width: var(--kontrole-min-hoehe)
+		&:not(:first-child)
+			border-left: 2px solid var(--color-secondary)
+		&.shrink
+			flex-grow: 0
+		&.active, &:focus, &:hover
+			color: var(--color-secondary)
+		&:active
+			color: var(--color-focus)
+		&.anleitung
+			color: transparent
+			text-shadow: 0 0 0 var(--color-foreground)

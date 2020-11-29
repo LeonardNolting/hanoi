@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA,WAAW;EACV,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;EACZ,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,GAAG;EACnB,WAAW,EAAE,QAAQ;EACrB,eAAe,EAAE,YAAY",
-"sources": ["spiel.sass"],
-"names": [],
-"file": "spiel.css"
-}

@@ -6,14 +6,39 @@ body, html
 	height: 100%
 
 body
-	background-image: linear-gradient(0, linen, white)
+	--color-background: var(--color-hell)
+	--color-foreground: var(--color-dunkel)
+	--color-primary: var(--color-primary-hell)
+	--color-secondary: var(--color-secondary-hell)
+	background: var(--background-hell)
+	&.dunkel
+		--color-primary: var(--color-primary-dunkel)
+		--color-secondary: var(--color-secondary-dunkel)
+		--color-background: var(--color-dunkel)
+		--color-foreground: var(--color-hell)
+		background: var(--background-dunkel)
+
+	//background-image: linear-gradient(0, var(--color-primary) 50%, var(--color-background))
+	color: var(--color-foreground)
+	font-family: system-ui, sans-serif
 	display: flex
-	flex-direction: column
+	justify-content: center
+	overflow: hidden
+
+	// Bild
+	&:before
+		content: ""
+		position: absolute
+		height: 100%
+		width: 105%
+		// Blur-Effekt ist am Rand sichtbar, deswegen breiter
+		background-image: url(https://www.geihinkan.go.jp/wp-content/themes/geihinkan/assets/img/akasaka/kacho/kacho_main.jpg)
+		background-position: center
+		background-size: cover
+		filter: blur(8px) sepia(.7) grayscale(0.1)
+		opacity: .6
 
 *
 	box-sizing: border-box
 
-@import kontrolle
-@import spiel
-@import turm
-@import scheibe
+@import container

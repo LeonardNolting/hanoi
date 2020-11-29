@@ -1,0 +1,22 @@
+hanoi-anleitung
+	display: none
+	padding: 1em
+	background-image: radial-gradient(rgba(30, 30, 30, .2), rgba(0, 0, 0, 0.9))
+	position: fixed
+	height: 100%
+	width: 100%
+	overflow: auto
+	transform: scale(.9)
+	transition: transform .2s ease
+	z-index: 100
+	color: var(--color-hell)
+	h2
+		margin-top: 0
+		color: var(--color-secondary-hell)
+	a
+		color: inherit
+	&.offen
+		display: initial
+		transform: scale(1)
+		& ~ *
+			filter: blur(2px)

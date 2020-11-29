@@ -1,0 +1,43 @@
+hanoi-status
+	position: absolute
+	display: flex
+	font-weight: bold
+	font-size: .9em
+	justify-content: space-between
+	width: 100%
+	user-select: none
+	cursor: default
+	z-index: 3
+	div
+		padding: .6em
+		display: flex
+		flex-direction: column
+		align-items: center
+		text-shadow: 0 0 8px black
+		&:first-child
+			align-items: flex-start
+		&:last-child
+			align-items: flex-end
+		&:after
+			content: ""
+			opacity: 0
+			display: none
+		&#zeit
+			text-transform: initial
+			cursor: pointer
+		&[data-state=besser]
+			color: green
+			&:after
+				content: "Neuer Highscore!"
+		&[data-state=knapp]
+			color: yellow
+			&:after
+				content: "Gerade noch ein neuer Highscore!"
+		&[data-state=gleich]
+			color: darkorange
+			&:after
+				content: "Gleichauf mit deinem Highscore."
+		&[data-state=schlechter]
+			color: red
+			&:after
+				content: "Dein Highscore war " attr(data-highscore) "."
